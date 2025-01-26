@@ -17,7 +17,7 @@ export const fetchItemDetails = (id) => API.get(`/items/${id}`);
 export const fetchProducts = (token) => API.get('/items', {
   headers: { Authorization: `Bearer ${token}` },
 });
-export const fetchOrders = (token) => API.get('/orders', {
+export const fetchOrders = (token,userId) => API.get(`/orders/${userId}`, {
   headers: { Authorization: `Bearer ${token}` },
 });
 export const addProduct = (productData, token) => API.post('/items', productData, {
@@ -39,7 +39,7 @@ export const fetchCartItems = (token, userId) => API.get('users/cart', {
 export const completeOrder = (orderId, otp, token) => API.post(`/orders/${orderId}/complete`, { otp }, {
   headers: { Authorization: `Bearer ${token}` },
 });
-export const placeOrder = (orderData, token,userId) => API.post(`/orders/${userId}`, orderData, {
+export const placeOrder = (orderData, token,userId) => API.post(`/orders/place/${userId}`, orderData, {
   headers: { Authorization: `Bearer ${token}` },
   // params: orderData
 });

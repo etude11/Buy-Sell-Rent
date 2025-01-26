@@ -66,6 +66,16 @@ export const placeOrder = asyncHandler(async (req, res) => {
         console.error("Error placing order:", error);
     }
 });
+
+// Fetch Orders
+export const fetchOrders = asyncHandler(async (req, res) => {
+    console.log("fetchOrders");
+    console.log(req.params.userId);
+    const userId = req.params.userId;
+    const orders = await Order.find({ buyer: userId }).populate('sellerorder.items.itemId').populate('sellerorder.sellerId');
+    res.json(orders);
+});
+
 export const createOrder = asyncHandler(async (req, res) => {
     const { buyer, seller,items, amount, hashedOtp,status } = req.body;
     const order = new Order({ buyer, seller,items, amount, hashedOtp ,status});
