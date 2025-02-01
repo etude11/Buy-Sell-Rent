@@ -13,17 +13,17 @@ function YourProducts() {
     useEffect(() => {
       const loadProducts = async () => {
         if (!user || !token) {
-          console.log('User or token not available, skipping fetch');
+          
           return; // Skip fetching if user or token is not available
         }
     
         try {
-          console.log('Fetching products for user:', user._id);
+          
           const { data } = await fetchProducts(token);
-          console.log('Fetched products:', data);
+          
           const userProducts = data.filter((product) => product.seller._id === user._id);
           setProducts(userProducts);
-          console.log('Filtered products:', userProducts);
+          
         } catch (error) {
           console.error('Error fetching products:', error);
         }
@@ -35,17 +35,17 @@ function YourProducts() {
     const handleAddProduct = async (e) => {
       e.preventDefault();
       if (!user) {
-        alert('User is not defined');
+        // alert('User is not defined');
         return;
       }
       try {
         const productData = { ...newProduct, seller: user._id };
         await addProduct(productData, token);
-        alert('Product added successfully!');
+        // alert('Product added successfully!');
         setNewProduct({ name: '', price: '', description: '', category: '' });
         setProducts([...products, productData]);
       } catch (error) {
-        alert('Failed to add product');
+        // alert('Failed to add product');
       }
     };
   return (

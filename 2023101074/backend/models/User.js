@@ -14,9 +14,8 @@ const userSchema = mongoose.Schema(
       password: { type: String, required: true },
       cart: [
         {
-          itemId: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
-          quantity: { type: Number, default: 1 },
-        },
+          item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item' }
+        }
       ],
       reviews: [{ type: String }],
     },

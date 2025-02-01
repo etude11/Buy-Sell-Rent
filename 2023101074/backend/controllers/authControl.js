@@ -4,7 +4,7 @@ import generateToken from '../utils/generateToken.js';
 
 // Register User
 export const registerUser = asyncHandler(async (req, res) => {
-    console.log("inside registerUser");
+    
     const { firstName, lastName, email, age, contactNumber, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {

@@ -4,7 +4,9 @@ import asyncHandler from 'express-async-handler';
 // Get User Profile
 export const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
+    
     if (user) {
+        // console.log("user",user);
         res.json(user);
     } else {
         res.status(404);

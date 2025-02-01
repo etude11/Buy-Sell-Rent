@@ -14,6 +14,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCart = async (userId) => {
     try {
+      
       const res = await fetch(`http://localhost:5000/api/cart/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -23,6 +24,7 @@ export const CartProvider = ({ children }) => {
       if (!res.ok) throw new Error("Failed to fetch cart");
 
       const data = await res.json();
+      
       setCart(data || []); // Ensure cart is an array
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -52,11 +54,11 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const decrementCartItem = async (itemId) => {
+  const removeFromCart = async (itemId) => {
     if (!user) return console.error("User not logged in");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/remove`, {
+      const res = await fetch(`http://localhost:5000/api/cart/removeItem`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +77,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, decrementCartItem }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

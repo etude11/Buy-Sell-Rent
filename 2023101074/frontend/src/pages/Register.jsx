@@ -9,12 +9,13 @@ function Register() {
     const handleRegister = async (e) => {
       e.preventDefault();
       try {
-        console.log(formData);
+        
         const { data } = await registerUser(formData);
         localStorage.setItem('token', data.token);
         navigate('/');
+        window.location.reload();
       } catch (error) {
-        alert('Registration failed!');
+        // alert('Registration failed!');
       }
     };
   

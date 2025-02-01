@@ -14,6 +14,7 @@ function Login() {
       const { data } = await loginUser({ email, password });
       localStorage.setItem('token', data.token);
       navigate('/');
+      window.location.reload();
     } catch (error) {
       alert('Invalid credentials!');
     }

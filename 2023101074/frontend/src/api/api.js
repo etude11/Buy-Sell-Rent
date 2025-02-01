@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 const API = axios.create({ baseURL: 'http://localhost:5000/api' });
 
 // Authentication APIs
@@ -8,6 +9,10 @@ export const registerUser = (userData)=>API.post('/auth/register', userData);
 
 // User APIs
 export const fetchProfile = (token) => API.get('/users/profile', {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export const updateProfile = (userData, token) => API.put('/users/profile', userData, {
   headers: { Authorization: `Bearer ${token}` },
 });
 
@@ -39,9 +44,28 @@ export const fetchCartItems = (token, userId) => API.get('users/cart', {
 export const completeOrder = (orderId, otp, token) => API.post(`/orders/${orderId}/complete`, { otp }, {
   headers: { Authorization: `Bearer ${token}` },
 });
-export const placeOrder = (orderData, token,userId) => API.post(`/orders/place/${userId}`, orderData, {
+export const placeOrder = (orderData, token, userId) => API.post(`/orders/place/${userId}`, orderData, {
   headers: { Authorization: `Bearer ${token}` },
-  // params: orderData
+});
+
+export const getSellerOrders = (token) => API.get('/orders/seller', {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export const completeDelivery = (orderId, otp, token) => API.post(`/orders/${orderId}/complete`, { otp }, {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export const fetchPendingOrders = (token) => API.get('/orders/pending', {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export const fetchBoughtItems = (token) => API.get('/orders/bought', {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export const fetchSoldItems = (token) => API.get('/orders/sold', {
+  headers: { Authorization: `Bearer ${token}` },
 });
 
 export default API;
