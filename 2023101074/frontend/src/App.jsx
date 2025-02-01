@@ -3,13 +3,13 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-// import Profile from "./pages/Profile";
 import YourProducts from './pages/YourProducts';
 import Search from "./pages/Search";
 import Orders from "./pages/Orders";
 import ItemDetails from "./pages/ItemDetails";
 import DeliverItems from "./pages/DeliverItems";
 import Cart from "./pages/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -19,13 +19,36 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* <Route path="/profile" element={<Profile />} /> */}
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path='/your-products' element={<YourProducts />} />
-        <Route path='/deliver-items' element={<DeliverItems />} />
-        <Route path="/item/:id" element={<ItemDetails />} />
+        <Route path="/cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        } />
+        <Route path="/search" element={
+          <ProtectedRoute>
+            <Search />
+          </ProtectedRoute>
+        } />
+        <Route path="/orders" element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        } />
+        <Route path='/your-products' element={
+          <ProtectedRoute>
+            <YourProducts />
+          </ProtectedRoute>
+        } />
+        <Route path='/deliver-items' element={
+          <ProtectedRoute>
+            <DeliverItems />
+          </ProtectedRoute>
+        } />
+        <Route path="/item/:id" element={
+          <ProtectedRoute>
+            <ItemDetails />
+          </ProtectedRoute>
+        } />
       </Routes>
     </>
   );
