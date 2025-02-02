@@ -3,6 +3,8 @@ import { fetchProducts } from '../api/api';
 import AuthContext from '../context/AuthContext';
 import ItemCard from "../components/ItemCard";
 import './Search.css';
+import { PageContainer } from '../components/FormStyles';
+import { TextField, Box } from '@mui/material';
 
 function Search() {
   const [products, setProducts] = useState([]);
@@ -43,16 +45,22 @@ function Search() {
   };
 
   return (
-    <div className='search-container'>
+    <PageContainer>
       <h2>Search Items</h2>
-      <input
-        type="text"
+      <TextField
+        fullWidth
+        variant="outlined"
         placeholder="Search products..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
+        sx={{ mb: 3 }}
       />
-      <div className="products-grid">
+      <Box sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+        gap: 3,
+        width: '100%'
+      }}>
         {filteredProducts.map((product) => (
           <ItemCard 
             key={product._id} 
@@ -60,8 +68,8 @@ function Search() {
             onAddToCart={handleAddToCart}
           />
         ))}
-      </div>
-    </div>
+      </Box>
+    </PageContainer>
   );
 }
 

@@ -1,36 +1,43 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import  AuthContext  from '../context/AuthContext';
-import './Navbar.css';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 function Navbar() {
-  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
-    <nav className="navbar">
-      {user ? (
-        <>
-          <Link to="/" className="nav-brand">Buy-Sell-Rent</Link>
-          <div className="nav-links">
-            <Link to="/search">Search</Link>
-            <Link to="/your-products">Your Products</Link>
-            <Link to="/orders">Orders</Link>
-            <Link to="/cart">Cart</Link>
-            <Link to="/support">Support</Link>
-            <Link to="/dashboard">Profile</Link>
-            <Link to="/logout">Logout</Link>
-          </div>
-        </>
-      ) : (
-        <>
-          <span className="nav-brand">Buy-Sell-Rent</span>
-          <div className="nav-links">
-            <Link to="/login">Login</Link>
-            <Link to="/manual-register">Register</Link>
-          </div>
-        </>
-      )}
-    </nav>
+    <AppBar position="fixed" sx={{ bgcolor: '#1976d2' }}>
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Buy-Sell-Rent
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {user ? (
+            <>
+              <Button color="inherit" component={Link} to="/search">Search</Button>
+              <Button color="inherit" component={Link} to="/your-products">Your Products</Button>
+              <Button color="inherit" component={Link} to="/orders">Orders</Button>
+              <Button color="inherit" component={Link} to="/cart">Cart</Button>
+              <Button color="inherit" component={Link} to="/support">Support</Button>
+              <Button color="inherit" component={Link} to="/">Profile</Button>
+              <Button color="inherit" onClick={handleLogout}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">Login</Button>
+              <Button color="inherit" component={Link} to="/manual-register">Register</Button>
+            </>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
 

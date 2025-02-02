@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import { fetchProducts, addProduct } from '../api/api';
 import AuthContext from '../context/AuthContext';
-import './YourProducts.css';
-
+import { Typography, TextField, Box } from '@mui/material';
+import { PageContainer, FormContainer, FormWrapper } from '../components/FormStyles';
 
 function YourProducts() {
     const [products, setProducts] = useState([]);
@@ -49,21 +49,46 @@ function YourProducts() {
       }
     };
   return (
-    <div className='your-products-container'>
-      <h2>Your Products</h2>
-      <form onSubmit={handleAddProduct}>
-        <input type='text' placeholder='Name' value={newProduct.name} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} required />
-        <input type='number' placeholder='Price' value={newProduct.price} onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} required />
-        <input type='text' placeholder='Description' value={newProduct.description} onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })} />
-        <input type='text' placeholder='Category' value={newProduct.category} onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })} required />
-        <button type='submit'>Add Product</button>
-      </form>
-      <ul>
-        {products.map((product) => (
-          <li key={product._id}>{product.name} - ₹{product.price}</li>
-        ))}
-      </ul>
-    </div>
+    <PageContainer>
+      <Typography variant="h4" gutterBottom>Your Products</Typography>
+      <FormContainer>
+        <FormWrapper component="form" onSubmit={handleAddProduct}>
+          <TextField
+            fullWidth
+            label="Name"
+            value={newProduct.name}
+            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Price"
+            type="number"
+            value={newProduct.price}
+            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Description"
+            value={newProduct.description}
+            onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Category"
+            value={newProduct.category}
+            onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+          />
+          <button type='submit'>Add Product</button>
+        </FormWrapper>
+      </FormContainer>
+      <Box sx={{ mt: 4, width: '100%' }}>
+        <ul>
+          {products.map((product) => (
+            <li key={product._id}>{product.name} - ₹{product.price}</li>
+          ))}
+        </ul>
+      </Box>
+    </PageContainer>
   );
 }
 export default YourProducts;

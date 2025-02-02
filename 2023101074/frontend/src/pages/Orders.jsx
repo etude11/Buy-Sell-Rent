@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import { AuthContext } from '../context/AuthContext';
+import { PageContainer } from '../components/FormStyles';
+import { Typography, Box, Button } from '@mui/material';
 import { fetchPendingOrders, fetchBoughtItems, fetchSoldItems, completeOrder } from '../api/api';
 import './Orders.css';  // You'll need to create this CSS file
 
@@ -59,56 +60,56 @@ const Orders = () => {
 };
 
   return (
-    <div className="orders-container">
-      <h2>Orders</h2>
-      
-      <div className="tabs">
-        <button 
-          className={activeTab === 'pending' ? 'active' : ''} 
+    <PageContainer>
+      <Typography variant="h4" gutterBottom>Orders</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 3 }}>
+        <Button 
+          variant={activeTab === 'pending' ? 'contained' : 'outlined'}
           onClick={() => setActiveTab('pending')}
         >
           Pending Orders
-        </button>
-        <button 
-          className={activeTab === 'bought' ? 'active' : ''} 
+        </Button>
+        <Button 
+          variant={activeTab === 'bought' ? 'contained' : 'outlined'}
           onClick={() => setActiveTab('bought')}
         >
           Bought Items
-        </button>
-        <button 
-          className={activeTab === 'sold' ? 'active' : ''} 
+        </Button>
+        <Button 
+          variant={activeTab === 'sold' ? 'contained' : 'outlined'}
           onClick={() => setActiveTab('sold')}
         >
           Sold Items
-        </button>
-      </div>
+        </Button>
+      </Box>
+      <Box sx={{ width: '100%' }}>
+        <div className="tab-content">
+          {activeTab === 'pending' && (
+            <div className="orders-grid">
+              {pendingOrders.map(order => (
+                <OrderCard key={order._id} order={order} showOtp={true} />
+              ))}
+            </div>
+          )}
 
-      <div className="tab-content">
-        {activeTab === 'pending' && (
-          <div className="orders-grid">
-            {pendingOrders.map(order => (
-              <OrderCard key={order._id} order={order} showOtp={true} />
-            ))}
-          </div>
-        )}
+          {activeTab === 'bought' && (
+            <div className="orders-grid">
+              {boughtItems.map(order => (
+                <OrderCard key={order._id} order={order} />
+              ))}
+            </div>
+          )}
 
-        {activeTab === 'bought' && (
-          <div className="orders-grid">
-            {boughtItems.map(order => (
-              <OrderCard key={order._id} order={order} />
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'sold' && (
-          <div className="orders-grid">
-            {soldItems.map(order => (
-              <OrderCard key={order._id} order={order} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+          {activeTab === 'sold' && (
+            <div className="orders-grid">
+              {soldItems.map(order => (
+                <OrderCard key={order._id} order={order} />
+              ))}
+            </div>
+          )}
+        </div>
+      </Box>
+    </PageContainer>
   );
 };
 

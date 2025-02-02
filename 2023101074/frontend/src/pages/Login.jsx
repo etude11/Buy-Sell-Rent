@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '../api/api';
 import './Login.css';
+import { TextField, Button, Typography, Divider } from '@mui/material';
+import { FormContainer, FormWrapper } from '../components/FormStyles';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,35 +37,47 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2>Login</h2>
-        <form onSubmit={handleManualLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="input-field"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="input-field"
-          />
-          <button type="submit" className="submit-btn">Login</button>
-        </form>
-        <div className="divider">OR</div>
-        <button onClick={handleCasLogin} className="cas-btn">
+    <FormContainer elevation={3}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Login
+      </Typography>
+      <FormWrapper component="form" onSubmit={handleManualLogin}>
+        <TextField
+          fullWidth
+          label="Email"
+          type="email"
+          variant="outlined"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        <TextField
+          fullWidth
+          label="Password"
+          type="password"
+          variant="outlined"
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          Login
+        </Button>
+        <Divider>OR</Divider>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={handleCasLogin}
+          size="large"
+        >
           Login with CAS
-        </button>
-        <p className="register-link">
-          Don't have an account? <a href="/manual-register">Register here</a>
-        </p>
-      </div>
-    </div>
+        </Button>
+      </FormWrapper>
+    </FormContainer>
   );
 };
 

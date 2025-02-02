@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getSellerOrders, completeDelivery } from '../api/api';
+import { PageContainer } from '../components/FormStyles';
+import { Typography, Box } from '@mui/material';
 
 const DeliverItems = () => {
   const [orders, setOrders] = useState([]);
@@ -53,13 +55,12 @@ const DeliverItems = () => {
   
 
   return (
-    <div>
-      <h1>Pending Deliveries</h1>
-
+    <PageContainer>
+      <Typography variant="h4" gutterBottom>Pending Deliveries</Typography>
       {orders.length === 0 ? (
-        <p>No pending deliveries</p>
+        <Typography>No pending deliveries</Typography>
       ) : (
-        <div>
+        <Box sx={{ width: '100%' }}>
           {orders.map((order) => (
             <div key={order._id} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}>
               <h3>{order.item.name}</h3>
@@ -88,9 +89,9 @@ const DeliverItems = () => {
               )}
             </div>
           ))}
-        </div>
+        </Box>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

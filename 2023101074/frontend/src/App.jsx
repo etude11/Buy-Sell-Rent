@@ -13,6 +13,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ManualRegister from "./pages/ManualRegister";
 import ChatSupport from "./components/ChatSupport";
 import { useEffect } from "react";
+import { Container, Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+
+const theme = createTheme();
 
 function App() {
   useEffect(() => {
@@ -27,50 +30,70 @@ function App() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/manual-register" element={<ManualRegister />} />
-        <Route path="/cart" element={
-          <ProtectedRoute>
-            <Cart />
-          </ProtectedRoute>
-        } />
-        <Route path="/search" element={
-          <ProtectedRoute>
-            <Search />
-          </ProtectedRoute>
-        } />
-        <Route path="/orders" element={
-          <ProtectedRoute>
-            <Orders />
-          </ProtectedRoute>
-        } />
-        <Route path='/your-products' element={
-          <ProtectedRoute>
-            <YourProducts />
-          </ProtectedRoute>
-        } />
-        <Route path='/deliver-items' element={
-          <ProtectedRoute>
-            <DeliverItems />
-          </ProtectedRoute>
-        } />
-        <Route path="/item/:id" element={
-          <ProtectedRoute>
-            <ItemDetails />
-          </ProtectedRoute>
-        } />
-        <Route path="/support" element={
-          <ProtectedRoute>
-            <ChatSupport />
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <Box component="main" sx={{ flexGrow: 1, pt: 10 }}>
+          <Container 
+            maxWidth="lg" 
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              '& > *': {
+                width: '100%',
+                maxWidth: '800px',
+                mx: 'auto',
+                my: 2
+              }
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/manual-register" element={<ManualRegister />} />
+              <Route path="/cart" element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              } />
+              <Route path="/search" element={
+                <ProtectedRoute>
+                  <Search />
+                </ProtectedRoute>
+              } />
+              <Route path="/orders" element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              } />
+              <Route path='/your-products' element={
+                <ProtectedRoute>
+                  <YourProducts />
+                </ProtectedRoute>
+              } />
+              <Route path='/deliver-items' element={
+                <ProtectedRoute>
+                  <DeliverItems />
+                </ProtectedRoute>
+              } />
+              <Route path="/item/:id" element={
+                <ProtectedRoute>
+                  <ItemDetails />
+                </ProtectedRoute>
+              } />
+              <Route path="/support" element={
+                <ProtectedRoute>
+                  <ChatSupport />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </Container>
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
 
