@@ -1,17 +1,16 @@
-// const mongoose = require('mongoose');
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-// import module from 'module';
 
 const userSchema = mongoose.Schema(
     {
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
-      email: { type: String, required: true, unique: true, match: /@iiit\.ac\.in$/ },
+      email: { type: String, required: true, unique: true},
       age: { type: Number, required: true },
       contactNumber: { type: String, required: true },
-      password: { type: String, required: true },
+      password: { type: String, required: function() { return !this.isCasUser; } },
+      isCasUser: { type: Boolean, default: false },
       cart: [
         {
           item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item' }
@@ -20,18 +19,17 @@ const userSchema = mongoose.Schema(
       reviews: [{ type: String }],
     },
     { timestamps: true }
-  );
+);
 
-// Hash password before saving
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password') || this.isCasUser) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 
-// Compare entered password with hashed password in DB
-userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function(enteredPassword) {
+    if (this.isCasUser) return false;
     return await bcrypt.compare(enteredPassword, this.password);
 };
 

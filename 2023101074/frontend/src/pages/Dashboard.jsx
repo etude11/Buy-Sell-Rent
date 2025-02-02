@@ -4,8 +4,7 @@ import { fetchProfile, updateProfile } from '../api/api';
 import './Dashboard.css';
 
 function Dashboard() {
-  // const { user, token } = useContext(AuthContext);
-  const token = localStorage.getItem('token');
+  const { token } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     firstName: '',
@@ -18,6 +17,8 @@ function Dashboard() {
 
   useEffect(() => {
     const getProfile = async () => {
+      if (!token) return;
+      
       try {
         const response = await fetchProfile(token);
         setProfile(response.data);

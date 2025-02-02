@@ -68,4 +68,14 @@ export const fetchSoldItems = (token) => API.get('/orders/sold', {
   headers: { Authorization: `Bearer ${token}` },
 });
 
+export const sendChatMessage = (token,message, history) => API.post('/chat/message', {
+  message,
+  history
+}, {
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`
+  }
+});
+
 export default API;
