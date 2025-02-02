@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
 import { fetchProducts, addProduct } from '../api/api';
 import AuthContext from '../context/AuthContext';
-import { Typography, TextField, Box } from '@mui/material';
+import { Typography, TextField, Box, MenuItem, Card, Chip } from '@mui/material';
 import { PageContainer, FormContainer, FormWrapper } from '../components/FormStyles';
+
+const CATEGORIES = ['Grocery', 'Electronics', 'Books', 'Misc'];
 
 function YourProducts() {
     const [products, setProducts] = useState([]);
@@ -73,20 +75,39 @@ function YourProducts() {
             onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
           />
           <TextField
+            select
             fullWidth
             label="Category"
             value={newProduct.category}
             onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-          />
+          >
+            {CATEGORIES.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </TextField>
           <button type='submit'>Add Product</button>
         </FormWrapper>
       </FormContainer>
       <Box sx={{ mt: 4, width: '100%' }}>
-        <ul>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 3 }}>
           {products.map((product) => (
-            <li key={product._id}>{product.name} - ₹{product.price}</li>
+            <Card key={product._id} sx={{ p: 2 }}>
+              <Typography variant="h6">{product.name}</Typography>
+              <Typography variant="body1" color="primary">₹{product.price}</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                {product.description}
+              </Typography>
+              <Chip 
+                label={product.category} 
+                size="small" 
+                color="info" 
+                sx={{ mt: 1 }}
+              />
+            </Card>
           ))}
-        </ul>
+        </Box>
       </Box>
     </PageContainer>
   );

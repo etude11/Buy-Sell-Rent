@@ -14,6 +14,19 @@ export const createItem = asyncHandler(async (req, res) => {
     const createdItem = await item.save();
     res.status(201).json(createdItem);
 });
+
+export const getItemById = asyncHandler(async (req, res) => {
+  const item = await Item.findById(req.params.id)
+    .populate('seller', 'firstName lastName email contactNumber');
+
+  if (!item) {
+    res.status(404);
+    throw new Error('Item not found');
+  }
+
+  res.json(item);
+});
+
 export const updateItem = asyncHandler(async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (item && item.seller.toString() === req.user._id.toString()) {

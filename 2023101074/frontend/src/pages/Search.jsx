@@ -4,13 +4,15 @@ import AuthContext from '../context/AuthContext';
 import ItemCard from "../components/ItemCard";
 import './Search.css';
 import { PageContainer } from '../components/FormStyles';
-import { TextField, Box } from '@mui/material';
+import { TextField, Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Search() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const { user } = useContext(AuthContext);
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
     useEffect(() => {
       const loadProducts = async () => {
@@ -39,14 +41,19 @@ function Search() {
       product.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = (e, item) => {
+    e.stopPropagation(); // Prevent navigation when clicking add to cart
     addToCart(item);
     window.location.reload();
   };
 
+  const handleItemClick = (itemId) => {
+    navigate(`/item/${itemId}`);
+  };
+
   return (
     <PageContainer>
-      <h2>Search Items</h2>
+      <Typography variant="h4" gutterBottom>Search Items</Typography>
       <TextField
         fullWidth
         variant="outlined"
@@ -54,20 +61,32 @@ function Search() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         sx={{ mb: 3 }}
+        helperText="Search by name, description, or category"
       />
       <Box sx={{ 
         display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', // Slightly wider cards
         gap: 3,
         width: '100%'
       }}>
-        {filteredProducts.map((product) => (
-          <ItemCard 
-            key={product._id} 
-            item={product} 
-            onAddToCart={handleAddToCart}
-          />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <Box 
+              key={product._id} 
+              onClick={() => handleItemClick(product._id)}
+              sx={{ cursor: 'pointer' }}
+            >
+              <ItemCard 
+                item={product} 
+                onAddToCart={(e) => handleAddToCart(e, product)}
+              />
+            </Box>
+          ))
+        ) : (
+          <Typography variant="body1" color="text.secondary">
+            No products found matching your search.
+          </Typography>
+        )}
       </Box>
     </PageContainer>
   );

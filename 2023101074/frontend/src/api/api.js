@@ -78,4 +78,13 @@ export const sendChatMessage = (token,message, history) => API.post('/chat/messa
   }
 });
 
+export const fetchItemById = async (id, token) => {
+  return API.get(`/items/${id}`, {
+    headers: { 
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 export default API;
